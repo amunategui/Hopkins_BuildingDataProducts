@@ -5,9 +5,73 @@ Quantifying the Spread: Measuring Strength and Direction of Predictors with the 
 
 By extending the basic ``summary()`` funciton, we can quickly highlight top predictors, even on extremely large data sets.
 
-The idea is not to summarize the variable in of itself, but to split the data into two sets, one for each outcome and summarize each. Comparing the results from both sets will tell you how well you predictor behaves towards your outcome 
-variable. The above plots shows the summary of two predictors and their individual spreads - clearly, this first plot is a powerful predictor as the spread between the green and red line is large, 
-while the second one isn't.
+The idea is not to summarize the variable in of itself, but to split the data into two sets, one for each outcome and summarize each. Comparing the results from both sets will tell you how well you predictor behaves towards your outcome variable. 
+
+**Analysis**
+
+This demonstation uses the classic Titanic data set from the University of Colorado. The five-number summary</a> displays the <b>min, max, 1st & 3rd quantile, mean, medium</b> of each variable.
+<BR><BR>
+Though extremely useful, this doesn't help us understand how our outcome variable interacts with its predictors. To remedy this, we split the data into two separate data sets, an outcome-positive data set, and an outcome-negative data set. Let's look at ``Sex.female``:
 
 
-This demonstation uses the classic Titanic data set from the University of Colorado.
+```r
+df_survived_1 <- subset(titanicDF, Survived==1)
+df_survived_0 <- subset(titanicDF, Survived==0)
+summary(df_survived_1$Sex.female)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   0.000   1.000   0.684   1.000   1.000
+```
+
+```r
+summary(df_survived_0$Sex.female)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   0.000   0.000   0.178   0.000   1.000
+```
+<BR><BR>
+Now, a clearer picture emerges regarding that variable when using an outcome-specific perspective. We learn that almost 70% of those that survived were females, and that only 18% of those that died were females. I think you can see where I am going with this.
+<BR><BR>
+The shiny application creates a vector of summary information for both outcomes, overlaying them together and measuring the spread using the following logic:
+<BR><BR>
+If we generalize this spread into a single number, we'll be able to bypass the graphing phase and apply this to huge data sets.
+
+
+```r
+spread <- ((Sex.Female_1[[1]] - Sex.Female_0[[1]]) +
+             (Sex.Female_1[[2]] - Sex.Female_0[[2]]) +
+             (Sex.Female_1[[3]] - Sex.Female_0[[3]]) +
+             (Sex.Female_1[[4]] - Sex.Female_0[[4]]) +
+             (Sex.Female_1[[5]] - Sex.Female_0[[5]]) +
+             (Sex.Female_1[[6]] - Sex.Female_0[[6]]))
+print(spread)
+```
+
+```
+## [1] 2.506
+```
+<BR><BR>
+<b>2.56</b> is a large spread, let's compare it with the weaker variable ``Title.Nothing``:
+
+
+```r
+Title.Nothing_0 <- (summary(df_survived_0$Title.Nothing))
+Title.Nothing_0 <- c(Title.Nothing_0[1:6])
+Title.Nothing_1 <- (summary(df_survived_1$Title.Nothing))
+Title.Nothing_1 <- c(Title.Nothing_1[1:6])
+stats <- data.frame('ind'=c(1:6), 'stats1'=Title.Nothing_1,'stats0'=Title.Nothing_0)
+spread <- ((Title.Nothing_1[[1]] - Title.Nothing_0[[1]]) +
+             (Title.Nothing_1[[2]] - Title.Nothing_0[[2]]) +
+             (Title.Nothing_1[[3]] - Title.Nothing_0[[3]]) +
+             (Title.Nothing_1[[4]] - Title.Nothing_0[[4]]) +
+             (Title.Nothing_1[[5]] - Title.Nothing_0[[5]]) +
+             (Title.Nothing_1[[6]] - Title.Nothing_0[[6]]))
+print(spread)
+```
+
+```
+## [1] 0.0366

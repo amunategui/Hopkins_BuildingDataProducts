@@ -3,9 +3,9 @@ Quantifying the Spread: Measuring Strength and Direction of Predictors with the 
 
 **Abstract**
 
-By extending the basic ``summary()`` funciton, we can quickly highlight top predictors, even on extremely large data sets.
+By extending the basic ``summary()`` function, we can quickly highlight top predictors, even on extremely large data sets.
 
-The idea is not to summarize the variable in of itself, but to split the data into two sets, one for each outcome and summarize each. Comparing the results from both sets will tell you how well you predictor behaves towards your outcome variable. 
+The idea is not to summarize the variable in of itself, but to split the data into two sets, one for each outcome in the classification model and summarize them. Comparing the results from both sets will tell you how well you predictor behaves towards your outcome variable. 
 
 **Analysis**
 
@@ -38,7 +38,7 @@ Now, a clearer picture emerges regarding that variable when using an outcome-spe
 <BR><BR>
 The shiny application creates a vector of summary information for both outcomes, overlaying them together and measuring the spread using the following logic:
 <BR><BR>
-If we generalize this spread into a single number, we'll be able to bypass the graphing phase and apply this to huge data sets.
+If we generalize this spread into a single number by substracting each corresponding summary function, we are able to come up with some very telling data.
 
 
 ```r
@@ -75,3 +75,5 @@ print(spread)
 
 ```
 ## [1] 0.0366
+
+Clearly, 2.506 from ``Sex.Female`` is a lot more important than 0.0366 from ``Title.Nothing``. This is exactly what the shiny application shows in a graph form that can be tweaked to remove stonger predictors to drill deep into the contribution of each variable.

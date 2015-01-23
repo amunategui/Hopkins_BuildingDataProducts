@@ -5,7 +5,7 @@ Quantifying the Spread: Measuring Strength and Direction of Predictors with the 
 
 By extending the basic ``summary()`` function, we can quickly highlight top predictors, even on extremely large data sets.
 
-The idea is not to summarize the variable in of itself, but to split the data into two sets, one for each outcome in the classification model and summarize them. Comparing the results from both sets will tell you how well you predictor behaves towards your outcome variable. 
+The idea is not to summarize the variable in of itself, but to split the data into two sets, one for each outcome in the classification model and summarize them. Comparing the results from both sets will tell you how well you predictor behaves towards your outcome variable. By combining this approach with an interactive Shiny graph allows to not only understand the strong predictors, but also the weaker ones.
 
 **Analysis**
 
